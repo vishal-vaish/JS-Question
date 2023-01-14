@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <label for="paragraph-input">Enter paragraph here</label>
+    <div id="paragraph-input" contenteditable="true">Enter text here</div>
+    <br />
+    <br />
+    <div>Total matches:- <span id="words-counter">0</span></div>
+    <br />
+    <label for="word-input">Enter word to be higlighted here</label>
+    <input oninput="onchangehandler()" type="text" id="word-input">
+    <br />
+    <br />
+    <label for="ignore-case">Ignore case?</label>
+    <input type="checkbox" id="ignore-case" onchange="onchangehandler()">
+</body>
+
+</html>
+<style>
+    #paragraph-input {
+        border: 2px solid rgb(150, 0, 0);
+        width: 400px;
+        height: 300px;
+        padding: 8px 16px;
+        overflow: scroll;
+    }
+
+    .highlighted-txt {
+        color: rgb(0, 0, 0);
+        background-color: rgb(241, 255, 45);
+    }
+</style>
+<script>
+
+    function onchangehandler() {
+        let input = document.getElementById("word-input").value;
+        let paragraph = document.getElementById("paragraph-input");
+        let checkcase = document.getElementById("ignore-case").checked;
+        console.log(checkcase);
+        let count = 0;
+        if (!input) return;
+
+
+
+        let result = "";
+        if (checkcase) {
+            let resultcase=new RegExp(input,'ig')
+            result = paragraph.innerText.replaceAll(resultcase, (event) => {
+           
+            count++;
+            return `<span class="highlighted-txt">${event}</span>`;
+            });
+        } else {
+
+            result = paragraph.innerText.replaceAll(input, (event) => {
+                count++;
+                return `<span class="highlighted-txt">${event}</span>`;
+            })
+        }
+        document.getElementById("words-counter").innerText = count;
+        paragraph.innerHTML = result;
+
+    }
+
+
+
+
+
+
+</script>

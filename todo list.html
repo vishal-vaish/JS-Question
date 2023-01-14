@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To do list</title>
+</head>
+<body>
+    <header>My Todo list</header>
+    <form>
+        <div>
+            <input type="text" id="text" class="todo-input">
+            <button type="submit" id="todo-btn" class="todo-button">ADD</button>
+        </div>
+    </form>
+
+    <div class="todo-container">
+        <ul class="todo-list" id="todo-list">
+            
+        </ul>
+    </div>
+</body>
+</html>
+<style>
+    /* css code goes here */
+button{
+    margin: 8px;
+}
+
+.complete{
+    text-decoration: line-through solid rgb(0,0,0);
+}
+</style>
+<script>
+ const addBtn=document.getElementById("todo-btn");
+ const textbox=document.getElementById("todo-input")
+ const todolist=document.getElementById("todo-list");
+ 
+ //when user click add button
+ addBtn.addEventListener('click',function(e) {
+    e.preventDefault();
+
+    const text=todolist.value;
+    let li=document.createElement('li');
+    li.setAttribute('class', 'todo-item')
+    li.innertext=text
+
+
+    todolist.appendChild(li);
+ })
+ 
+</script>
+

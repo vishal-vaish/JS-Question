@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div style="display: flex;">
+        <h1>Score:</h1>
+        <h1 id="score">0</h1>
+    </div>
+    <button id="reset">reset</button>
+</body>
+
+</html>
+<script>
+    const body = document.getElementsByTagName("body")[0];
+    let bombs=[];
+    let score=0
+    let gameover=false
+    const visitedNode=[]
+    const resetbtn=document.getElementById("reset");
+
+    resetbtn.addEventListener('click',()=>{
+        window.location.reload();
+    })
+
+    function incrementscore(){
+        score++;
+        const scoreelement=document.getElementById("score");
+        scoreelement.innerText=score;
+    }
+
+    function showallbomb(){
+        const allbombs=document.getElementsByClassName("bomb");
+        for (let bomb of allbombs) {
+            
+            bomb.style.background="red";
+        }
+    }
+    // to get first element of array
+    function createGrid() {
+        // we want to create 9*9 grid
+        for (let i = 0; i < 9; i++) {
+            const row = document.createElement("div");
+            row.style.display="flex";
+            //each row should have 9 columns
+            for (let j = 0; j < 9; j++) {
+                //to each column apply style
+                const column = document.createElement("div");
+                column.style.width = "30px";
+                column.style.height = "30px";
+                column.style.background = "grey";
+                column.style.border="1px solid black"
+                const currentIndex=i*9+j;// for index numbering
+
+                if(bombs.includes(currentIndex)) {
+                    column.className="bomb";
+                }
+                column.addEventListener('click',()=>{
+                    if(!gameover) {
+                    //if current index is in bombs array
+                    //background red;
+                    //background green
+                    if(bombs.includes(currentIndex)){
+                        column.style.background="red";
+                        //if the current index is bomb than show all bomb
+                        gameover=true;
+                        showallbomb();
+                        
+                    } else {
+                        column.style.background="green"
+                        if(!visitedNode.includes(currentIndex)){
+                            incrementscore();
+                            visitedNode.push(currentIndex);
+                        
+                    }
+                }
+                }
+                })
+                row.appendChild(column);
+            }
+            body.appendChild(row)
+        }
+    }
+    //placing a box
+    //an array of 9 r=number choosen randomly between 1 to 81
+    function generateRandomNumber(){
+        let randomNumber=((Math.random().toFixed(2))*100)%81;
+        randomNumber=Math.floor(randomNumber)
+        return randomNumber;
+    } 
+    function placebombs(){
+        while(bombs.length<9){
+            const randomNumber=generateRandomNumber();
+            //check if bombs array has this number
+            if(!bombs.includes(randomNumber)) {
+                bombs.push(randomNumber);
+            }
+        }
+        console.log(bombs);
+    }
+
+
+
+   
+    placebombs();
+    createGrid();
+
+</script>
